@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/estilo.css" />
+    <title>Simulación Interes Compuesto</title>
+  </head>
+  <body>
+    <main>
+      <form id="formulario" action="" method="post">
+        <h1>INTERES COMPUESTO</h1>
+        <!-- Ingresa el monto inicial -->
+        <div class="grupo">
+          <input
+            class="entradaValida"
+            type="number"
+            id="montoInicial"
+            required
+          /><span class="barra"></span>
+          <label for="montoInicial">Monto Inicial</label>
+        </div>
+        <!-- Monto objetivo -->
+        <div class="grupo">
+          <input
+            class="entradaValida"
+            type="number"
+            id="montoMeta"
+            required
+          /><span class="barra"></span>
+          <label for="montoMeta">Monto Objetivo</label>
+        </div>
+        <!-- Tasa anual -->
+        <div class="grupo">
+          <input
+            class="entradaValida"
+            type="number"
+            id="tasaAnual"
+            required
+          /><span class="barra"></span>
+          <label for="tasaAnual">Tasa Anual</label>
+        </div>
+        <!-- Duracion del plan de ahorro -->
+        <div class="grupoPlan">
+          <div>
+            <p id="planMeses"></p>
+          </div>
+        </div>
+        <div id="grupoBoton">
+          <button type="button" onclick="realizarPlan()">Calcular</button>
+        </div>
+      </form>
+    </main>
+    <script src="./js/interes-compuesto.js"></script>
+  </body>
+</html>

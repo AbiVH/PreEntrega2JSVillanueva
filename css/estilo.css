@@ -1,0 +1,133 @@
+:root {
+  --colorTextos: blue;
+  --colorTextosFocus: red;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: content-box;
+}
+
+body {
+  height: 100vh;
+  background: #000046; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to bottom,
+    #1cb5e0,
+    #000046
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to bottom,
+    #1cb5e0,
+    #000046
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+main {
+  height: 100vh;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  background-color: white;
+  display: grid;
+  text-align: center;
+  height: 50vh;
+  padding: 50px;
+  border-radius: 30px;
+  box-shadow: 0 0 6px 3px rgba(255, 255, 255, 0.749);
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+.grupo {
+  position: relative;
+}
+
+/* .grupoPlan {
+  display: none;
+  justify-content: left;
+} */
+
+.grupoPlan p {
+  font-size: 1.1rem;
+}
+
+input {
+  /* display: block; */
+  font-size: 1.1rem;
+  padding: 10px 10px 10px 5px;
+  border: none;
+  border-bottom: 1px solid black;
+  width: 100%;
+}
+
+input:focus {
+  outline: none;
+}
+
+label {
+  display: grid;
+  position: absolute;
+  left: 5px;
+  top: 10px;
+  text-align: left;
+  font-size: 1.1rem;
+  transition: 0.5s ease-in-out all;
+  pointer-events: none;
+}
+
+.entradaValida:focus ~ label,
+.entradaValida:valid ~ label {
+  top: -8px;
+  font-size: 0.8rem;
+  color: var(--colorTextosFocus);
+}
+
+.barra {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.barra::before {
+  content: "";
+  height: 2px;
+  width: 0%;
+  bottom: 0;
+  position: absolute;
+  background: rgba(25, 25, 170, 0.749);
+  transition: 0.3s ease width;
+  left: 0;
+}
+
+input:focus ~ .barra::before {
+  width: 105%;
+}
+
+.grupoBoton {
+  height: 100%;
+  display: grid;
+  align-items: center;
+}
+
+button {
+  width: 85%;
+  margin-top: 40px;
+  padding: 20px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  color: white;
+  background: #0000d33f; /* fallback for old browsers */
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to left,
+    #1cb5e0,
+    #00007a
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
