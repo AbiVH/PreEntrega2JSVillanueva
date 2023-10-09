@@ -7,8 +7,6 @@
 // Mostrar equipo
 // Mostrar precio del uniforme de todo el equipo
 
-let opcion;
-
 // Iterar equipo
 let equipo = [];
 
@@ -57,11 +55,24 @@ let jugador5 = new DatosNuevoJugador(
   "Poste"
 );
 
-// Agregamos los jugadores al equipo -> equipo[...]
+// Agregamos los jugadores al equipo -> equipo[...] para tener un registro de los id
 equipo.push(jugador1, jugador2, jugador3, jugador4, jugador5);
+
+// Agregamos los jugadores al equipo -> equipo[...] para actuzalizar el equipo después de una eliminación
+let equipoActualizado = equipo.concat("");
+
+// Función para mostrar al equipo
+function mostrarEquipo() {
+  console.clear();
+  console.log("equipo");
+  equipo.forEach((jugadores) => console.log(jugadores));
+  console.log("equipoActualizado");
+  equipoActualizado.forEach((jugadores) => console.log(jugadores));
+}
 
 // Función para agregar los datos del nuevo jugador
 function DatosNuevoJugador(id, nombre, sexo, edad, tallaUniforme, posicion) {
+  console.clear();
   (this.id = id),
     (this.nombre = nombre),
     (this.sexo = sexo),
@@ -72,14 +83,39 @@ function DatosNuevoJugador(id, nombre, sexo, edad, tallaUniforme, posicion) {
 
 // Funcion para el registro de jugador
 function registroJugador() {
+  console.clear();
   let id = equipo.length + 1;
   let nombre = prompt(`Ingrese el nombre del jugador`);
-  let sexo = prompt(`Ingrese el seexo del jugador`);
+  let sexo;
+  // Elije el usuario el sexo del jugador
+  // El ciclo hace que elija una opcion válida para que en el condicional se guarde el dato como "masculino" o "femenino"; sólo hay esas tres opciones
+  do {
+    sexo = parseInt(
+      prompt(`
+    Seleccione la talla de uniforme que requiere
+    1.- masculino
+    2.- femenino`)
+    );
+  } while (sexo != 1 && sexo != 2);
+  switch (sexo) {
+    case 1:
+      sexo = "masculino";
+      break;
+    case 2:
+      sexo = "femenino";
+      break;
+    default:
+      break;
+  }
+
+  let edad = parseInt(prompt(`Ingrese la edad del jugador`));
 
   // Elije el usuario la talla del uniforme del jugador
   // El ciclo hace que elija una opcion válida para que en el condicional se guarde el dato como "Chico", "Mediano" o "Grande"; sólo hay esas tres opciones
+
+  let tallaUniforme;
   do {
-    let tallaUniforme = parseInt(
+    tallaUniforme = parseInt(
       prompt(`
     Seleccione la talla de uniforme que requiere
     1.- Chico
@@ -104,8 +140,10 @@ function registroJugador() {
 
   // Elije el usuario la posición del jugador
   // El ciclo hace que elija una opcion válida para que en el condicional se guarde el dato como "Ala", "Centro" o "Poste"; sólo hay esas tres opciones
+
+  let posicion;
   do {
-    let posicion = parseInt(
+    posicion = parseInt(
       prompt(`
     Seleccione la posición del jugador
     1.- Ala
@@ -132,31 +170,65 @@ function registroJugador() {
     id,
     nombre,
     sexo,
+    edad,
     tallaUniforme,
     posicion
   );
+  equipoActualizado.push(nuevoJugador);
   equipo.push(nuevoJugador);
-}
 
-// Función para editar los datos de los jugadores
-function editarDatosJugador() {
   mostrarEquipo();
-
-  let idEditarDatosJugador = parseInt(
-    prompt(
-      `Abra la consola, observe y coloque el id del jugador que requiere editar sus datos`
-    )
-  );
 }
 
+// Función para eliminar jugador
+function eliminarJugador(idEliminarJugador) {
+  // Pido los datos desde el switch para que pueda reutilizar la función de eliminarJugador() en la función de editarJugador()
+
+  equipoActualizado.splice(idEliminarJugador - 1, 1);
+  mostrarEquipo();
+}
+
+// Función para filtrar jugadores entre categoría femenil y varonil
+function filtradoEquipo(categoria) {
+  console.clear();
+  let equipoFiltrado = equipoActualizado.filter(
+    (equipo) => equipo.sexo === categoria
+  );
+  equipoFiltrado.forEach((jugadores) => console.log(jugadores));
+}
+
+// Función para la busqueda de algún jugador
+function busquedaJugador() {
+  let buscarNombreJugador = prompt(
+    `Ingrese el nombre del jugador que quiere buscar`
+  );
+  let buscarJugador = equipoActualizado.find(
+    (nombreJugador) =>
+      nombreJugador.nombre.toLowerCase() === buscarNombreJugador.toLowerCase
+  );
+  if (buscarJugador) {
+    console.clear();
+    console.log(buscarJugador);
+  } else {
+    console.clear();
+    console.log(`No se encontró ningún jugador con ese nombre`);
+  }
+}
+
+let opcion;
+let catergoria;
+
+// MENU PRINCIPAL
 do {
   opcion = parseInt(
     prompt(`
   1.- Registro de jugador
-  2.- Editar datos del jugador
-  3.- Eliminar jugador
-  4.- Mostrar equipo
-  5.- Mostrar precio del uniforme
+  2.- Eliminar jugador
+  3.- Mostrar equipo
+  4.- Filtrado de equipo femenil
+  5.- Filtrado de equipo varonil
+  6.- Busqueda de jugador 
+  7.- Mostrar precio del uniforme
   0.-Salir`)
   );
 
@@ -165,15 +237,33 @@ do {
       registroJugador();
       break;
     case 2:
-      editarJugador();
+      // Pido los datos desde el switch para que pueda reutilizar la función de eliminarJugador() en la función de editarJugador()
+      console.clear();
+      mostrarEquipo();
+      let idEliminarJugador = parseInt(
+        prompt(
+          `Abra la consola, observe y coloque el id del jugador que requiere eliminar`
+        )
+      );
+      eliminarJugador(idEliminarJugador);
+
       break;
     case 3:
-      eliminarJugador();
-      break;
-    case 4:
       mostrarEquipo();
       break;
+    case 4:
+      categoria = "Femenino";
+      filtradoEquipo(categoria);
+      break;
     case 5:
+      categoria = "Masculino";
+      filtradoEquipo(categoria);
+      break;
+
+    case 6:
+      busquedaJugador();
+      break;
+    case 7:
       mostrarPrecioUniforme();
       break;
     case 0:
