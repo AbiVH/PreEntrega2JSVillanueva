@@ -243,3 +243,5 @@
 //       break;
 //   }
 // } while (opcionMenuPrincipal != 0);
+
+// Este programa debe de ser un carrito de compra
