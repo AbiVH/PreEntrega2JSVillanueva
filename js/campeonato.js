@@ -1,14 +1,13 @@
-// Crear menu
-
 // El programa debe de tener
-// Registrar jugador
-// Editar datos del jugador -> (id,nombre,sexo,edad,talla de uniforme,posicion)
+// Registrar jugador -> (id,nombre,sexo,edad,talla de uniforme,posicion)
 // Eliminar jugador del equipo
 // Mostrar equipo
+// Filtrar jugadores
+// Buscar jugadores
 // Mostrar precio del uniforme de todo el equipo
 
 // Iterar equipo
-let equipo = [];
+let equipoActualizado = [];
 
 let jugador1 = new DatosNuevoJugador(
   1,
@@ -56,18 +55,12 @@ let jugador5 = new DatosNuevoJugador(
 );
 
 // Agregamos los jugadores al equipo -> equipo[...] para tener un registro de los id
-equipo.push(jugador1, jugador2, jugador3, jugador4, jugador5);
-
-// Agregamos los jugadores al equipo -> equipo[...] para actuzalizar el equipo después de una eliminación
-let equipoActualizado = equipo.concat("");
+equipoActualizado.push(jugador1, jugador2, jugador3, jugador4, jugador5);
 
 // Función para mostrar al equipo
-function mostrarEquipo() {
+function mostrarEquipo(array) {
   console.clear();
-  console.log("equipo");
-  equipo.forEach((jugadores) => console.log(jugadores));
-  console.log("equipoActualizado");
-  equipoActualizado.forEach((jugadores) => console.log(jugadores));
+  array.forEach((jugadores) => console.log(jugadores));
 }
 
 // Función para agregar los datos del nuevo jugador
@@ -84,7 +77,7 @@ function DatosNuevoJugador(id, nombre, sexo, edad, tallaUniforme, posicion) {
 // Funcion para el registro de jugador
 function registroJugador() {
   console.clear();
-  let id = equipo.length + 1;
+  let id = equipoActualizado.length + 1;
   let nombre = prompt(`Ingrese el nombre del jugador`);
   let sexo;
   // Elije el usuario el sexo del jugador
@@ -93,16 +86,16 @@ function registroJugador() {
     sexo = parseInt(
       prompt(`
     Seleccione la talla de uniforme que requiere
-    1.- masculino
-    2.- femenino`)
+    1.- Masculino
+    2.- Femenino`)
     );
   } while (sexo != 1 && sexo != 2);
   switch (sexo) {
     case 1:
-      sexo = "masculino";
+      sexo = "Masculino";
       break;
     case 2:
-      sexo = "femenino";
+      sexo = "Femenino";
       break;
     default:
       break;
@@ -175,9 +168,8 @@ function registroJugador() {
     posicion
   );
   equipoActualizado.push(nuevoJugador);
-  equipo.push(nuevoJugador);
 
-  mostrarEquipo();
+  mostrarEquipo(equipoActualizado);
 }
 
 // Función para eliminar jugador
@@ -185,7 +177,11 @@ function eliminarJugador(idEliminarJugador) {
   // Pido los datos desde el switch para que pueda reutilizar la función de eliminarJugador() en la función de editarJugador()
 
   equipoActualizado.splice(idEliminarJugador - 1, 1);
-  mostrarEquipo();
+  equipoActualizado.forEach(
+    (jugador) => (jugador.id = equipoActualizado.indexOf(jugador) + 1)
+  );
+
+  mostrarEquipo(equipoActualizado);
 }
 
 // Función para filtrar jugadores entre categoría femenil y varonil
@@ -194,7 +190,8 @@ function filtradoEquipo(categoria) {
   let equipoFiltrado = equipoActualizado.filter(
     (equipo) => equipo.sexo === categoria
   );
-  equipoFiltrado.forEach((jugadores) => console.log(jugadores));
+  //   equipoFiltrado.forEach((jugadores) => console.log(jugadores));
+  mostrarEquipo(equipoFiltrado);
 }
 
 // Función para la busqueda de algún jugador
@@ -204,15 +201,29 @@ function busquedaJugador() {
   );
   let buscarJugador = equipoActualizado.find(
     (nombreJugador) =>
-      nombreJugador.nombre.toLowerCase() === buscarNombreJugador.toLowerCase
+      nombreJugador.nombre.toLowerCase() === buscarNombreJugador.toLowerCase()
   );
   if (buscarJugador) {
     console.clear();
     console.log(buscarJugador);
   } else {
     console.clear();
-    console.log(`No se encontró ningún jugador con ese nombre`);
+    console.log(
+      `No se encontró ningún jugador con ese nombre, o escribe el nombre completo por favor con tíldes si es el caso`
+    );
   }
+}
+
+// Funcion para dar precio de uniforme
+function mostrarPrecioUniforme() {
+  console.clear();
+  console.log(
+    `El precio del uniforme es ${
+      equipoActualizado.length * 120
+    } pesos, cada uniforme cuesta $120 y ustedes son ${
+      equipoActualizado.length
+    }`
+  );
 }
 
 let opcion;
@@ -239,7 +250,7 @@ do {
     case 2:
       // Pido los datos desde el switch para que pueda reutilizar la función de eliminarJugador() en la función de editarJugador()
       console.clear();
-      mostrarEquipo();
+      mostrarEquipo(equipoActualizado);
       let idEliminarJugador = parseInt(
         prompt(
           `Abra la consola, observe y coloque el id del jugador que requiere eliminar`
@@ -249,7 +260,7 @@ do {
 
       break;
     case 3:
-      mostrarEquipo();
+      mostrarEquipo(equipoActualizado);
       break;
     case 4:
       categoria = "Femenino";
